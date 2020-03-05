@@ -38,31 +38,18 @@ class _MyHomePageState extends State<MyHomePage> {
   TimerUtil _timerUtil;
 
   void _init(){
-    Stream.fromIterable([1])
+    Stream.fromIterable([3,2,1])
         .delay(Duration(seconds: 1))
         .listen((int i){
         if(i == 1){
-          print('setOnTimerTickCallback');
           RouteUtil.goMain(context);
         }
     });
-
-//    _timerUtil = new TimerUtil(mTotalTime: 1000);
-//    _timerUtil.setOnTimerTickCallback((int timerTick){
-//      if(timerTick == 1000){
-//        //主页面
-//        print('setOnTimerTickCallback');
-//        RouteUtil.goMain(context);
-//      }
-//    });
-//    _timerUtil.startCountDown();
-    print('startCountDown');
   }
 
   @override
   void initState() {
     super.initState();
-    print('initState');
     _init();
   }
 
