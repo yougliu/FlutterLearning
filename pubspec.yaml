@@ -29,6 +29,9 @@ dependencies:
   connectivity: ^0.4.8+1
   toast: ^0.1.5
   flutter_spinkit: ^4.1.2
+  # flutter 官方的 WebView 插件
+  webview_flutter: ^0.3.19+9
+
 
 dev_dependencies:
   flutter_test:
@@ -45,6 +48,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/
+    - assets/html/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -14,6 +14,7 @@ class RouteUtil{
   static void goMain(BuildContext context){
     print('goMain');
     pushReplacementNamed(context, CommonConstant.routeMain);
-//    Navigator.of(context).pushNamed(CommonConstant.routeMain);
   }
+
+
 }

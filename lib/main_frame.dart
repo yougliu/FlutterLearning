@@ -5,10 +5,12 @@ import 'package:realflutter/utils/connect_util.dart';
 import 'package:realflutter/utils/toast_util.dart';
 import 'package:realflutter/ui/common_ui.dart';
 import 'package:realflutter/ui/login_dialog.dart';
+import 'package:realflutter/webview/w_webview.dart';
 import 'package:toast/toast.dart';
 
 import 'model/route_bean.dart';
 import 'ui/loading_dialog.dart';
+import 'package:rxdart/rxdart.dart';
 
 //主页面--进行udp 路由检索
 class MainFrame extends StatelessWidget {
@@ -102,7 +104,24 @@ class _RouterListPageState extends State<RouterListPage> {
         return new LoadingDialog();
       },
     );
-    //进行登录请求
+    //进行登录请求--模拟三秒
+    Stream.fromIterable([3,2,1])
+        .delay(Duration(seconds: 1))
+        .listen((int i){
+      if(i == 1){
+        //跳转本地H5页面--动态配置跳转页面
+        print('push html5!!!!');
+        Navigator.pop(context);
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+            builder: (BuildContext context){
+              String loadUrl = "https://www.vmall.com/index.html";
+              return WidgetWebview(loadUrl);
+            }
+          ),
+        );
+      }
+    });
   }
 
   //显示登录框
