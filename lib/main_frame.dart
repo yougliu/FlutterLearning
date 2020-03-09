@@ -5,6 +5,10 @@ import 'package:realflutter/utils/connect_util.dart';
 import 'package:realflutter/utils/toast_util.dart';
 import 'package:realflutter/ui/common_ui.dart';
 import 'package:realflutter/ui/login_dialog.dart';
+import 'package:toast/toast.dart';
+
+import 'model/route_bean.dart';
+import 'ui/loading_dialog.dart';
 
 //主页面--进行udp 路由检索
 class MainFrame extends StatelessWidget {
@@ -30,6 +34,7 @@ class _RouterListPageState extends State<RouterListPage> {
 
   //1、网络连接 2、搜索中 3、结果展示
   int _pageState = 1;
+  RouteBean _selectRouter;
 
   @override
   void initState() {
@@ -86,12 +91,30 @@ class _RouterListPageState extends State<RouterListPage> {
     return childWidget;
   }
 
-  //显示登录框
-  showLoginInDialog(){
+  //登录回调
+  loginInCallback(){
+    if(null == _selectRouter){
+      return;
+    }
     showDialog(context: context,
       barrierDismissible: false,
       builder: (BuildContext context){
-        return new LoginInDialog();
+        return new LoadingDialog();
+      },
+    );
+    //进行登录请求
+  }
+
+  //显示登录框
+  showLoginInDialog(RouteBean router){
+    if(null == router){
+      return;
+    }
+    _selectRouter = router;
+    showDialog(context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context){
+        return new LoginInDialog(router,loginInCallback);
       }
     );
   }
@@ -128,7 +151,7 @@ class _RouterListPageState extends State<RouterListPage> {
         title: new Text(router.name),
         leading: new Icon(Icons.account_circle),
         trailing: new Icon(Icons.navigate_next),
-        onTap: showLoginInDialog,
+        onTap: ()=>showLoginInDialog(router),
       );
     });
     final divided = ListTile.divideTiles(
