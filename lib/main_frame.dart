@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:realflutter/common/common.dart';
 import 'package:realflutter/common/common_static.dart';
 import 'package:realflutter/http/login_in.dart';
+import 'package:realflutter/rookie_task_main.dart';
 import 'package:realflutter/utils/connect_util.dart';
+import 'package:realflutter/utils/rount_util.dart';
 import 'package:realflutter/utils/toast_util.dart';
 import 'package:realflutter/ui/common_ui.dart';
 import 'package:realflutter/ui/login_dialog.dart';
@@ -171,7 +174,8 @@ class _RouterListPageState extends State<RouterListPage> {
         title: new Text(router.name),
         leading: new Icon(Icons.account_circle),
         trailing: new Icon(Icons.navigate_next),
-        onTap: ()=>showLoginInDialog(router),
+//        onTap: ()=>showLoginInDialog(router),
+        onTap: ()=> RouteUtil.pushReplacementNamed(context,CommonConstant.rookieTask),
       );
     });
     final divided = ListTile.divideTiles(

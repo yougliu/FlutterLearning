@@ -2,6 +2,7 @@ import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:realflutter/common/common.dart';
 import 'package:realflutter/main_frame.dart';
+import 'package:realflutter/rookie_task_main.dart';
 import 'package:realflutter/utils/rount_util.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       routes: {
         //定义主页面路由
         CommonConstant.routeMain: (ctx) => MainFrame(),
+        CommonConstant.rookieTask:(ctx) => RookieTaskMain(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
