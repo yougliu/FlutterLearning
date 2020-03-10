@@ -31,6 +31,7 @@ dependencies:
   flutter_spinkit: ^4.1.2
   # flutter 官方的 WebView 插件
   webview_flutter: ^0.3.19+9
+  #加解密
 
 
 dev_dependencies:

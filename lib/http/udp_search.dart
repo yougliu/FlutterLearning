@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 //UDP 广播搜索--在判断wifi连接的前提下
 class UdpSearch{
   VoidCallback _callback;
-  String _mIp;
+  String _mIp = '255.255.255.255';
   Utf8Codec _utf8codec;
   RawDatagramSocket _udpSocket;
 
   void sendData(var sendData){
     //进行配置文件读取
     int port = 8080;
-    init("", port);
+    init(_mIp, port);
     if(null == _udpSocket || null == sendData || _mIp.isEmpty){
       throw new Exception("udp 初始化失败 ");
     }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:realflutter/common/common_static.dart';
+import 'package:realflutter/http/login_in.dart';
 import 'package:realflutter/utils/connect_util.dart';
 import 'package:realflutter/utils/toast_util.dart';
 import 'package:realflutter/ui/common_ui.dart';
 import 'package:realflutter/ui/login_dialog.dart';
 import 'package:realflutter/webview/w_webview.dart';
 import 'package:toast/toast.dart';
+import 'package:realflutter/utils/aes_util.dart';
 
 import 'model/route_bean.dart';
 import 'ui/loading_dialog.dart';
@@ -110,7 +112,6 @@ class _RouterListPageState extends State<RouterListPage> {
         .listen((int i){
       if(i == 1){
         //跳转本地H5页面--动态配置跳转页面
-        print('push html5!!!!');
         Navigator.pop(context);
         Navigator.of(context).push(
           new MaterialPageRoute(
