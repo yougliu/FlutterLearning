@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:realflutter/common/common.dart';
@@ -19,6 +21,16 @@ import 'package:rxdart/rxdart.dart';
 
 //主页面--进行udp 路由检索
 class MainFrame extends StatelessWidget {
+
+  List<RouteBean> mList = [
+    RouteBean('中兴路由',''),
+    RouteBean('华为路由',''),
+    RouteBean('小米路由',''),
+    RouteBean('TPlink路由',''),
+    RouteBean('大米路由',''),
+    RouteBean('水稻路由',''),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -37,17 +49,55 @@ class RouterListPage extends StatefulWidget {
   _RouterListPageState createState() => _RouterListPageState();
 }
 
-class _RouterListPageState extends State<RouterListPage> {
+class _RouterListPageState extends State<RouterListPage> with WidgetsBindingObserver{
 
   //1、网络连接 2、搜索中 3、结果展示
-  int _pageState = 1;
   RouteBean _selectRouter;
+  Timer _timer;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-//    _init();
+    WidgetsBinding.instance.addObserver(this);
+    timerStart();
+  }
+
+  timerStart(){
+    _timer = Timer.periodic(Duration(seconds: 2), (timer){
+      //进行刷新 30s
+      searchRouter();
+    });
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch(state){
+      case AppLifecycleState.resumed:
+        //回到前台
+        timerStart();
+        break;
+      case AppLifecycleState.paused:
+        //后台
+        _timer?.cancel();
+        break;
+      case AppLifecycleState.inactive:
+        // TODO: Handle this case.
+        break;
+      case AppLifecycleState.detached:
+        // TODO: Handle this case.
+        break;
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  searchRouter(){
+    print('search router');
   }
 
   freshUI(){
@@ -56,29 +106,7 @@ class _RouterListPageState extends State<RouterListPage> {
     });
   }
 
-  //初始化--状态：1、网络连接 2、搜索中 3、结果展示
-  void _init(){
-    ConnectUtil.isConnectd().then((result){
-      if(!result){
-        _pageState = 1;
-        freshUI();
-      }else{
-        ConnectUtil.isConnectWifi().then((result){
-          if(!result){
-            _pageState = 1;
-            freshUI();
-          }else{
-            //连接到wifi--进行搜索
-            _pageState = 3;
-            freshUI();
-          }
-        });
-      }
-    });
-  }
-
   _onNetTap(int netState){
-    _pageState = netState;
     freshUI();
   }
 
@@ -96,18 +124,6 @@ class _RouterListPageState extends State<RouterListPage> {
 
   @override
   Widget build(BuildContext context) {
-//    Widget childWidget;
-//    if(_pageState == 1){
-//      //网络提示
-//      childWidget = new NetHelpUi(_onNetTap);
-//    } else if(_pageState == 2){
-//      //loading搜索
-//      childWidget = new LoadingUi();
-//    } else if(_pageState == 3){
-//      //结果展示
-//      childWidget = BuildListView(context);
-//    }
-//    return childWidget;
     return Center(
       child: FutureBuilder<int>(
         future: mockNewData(),
