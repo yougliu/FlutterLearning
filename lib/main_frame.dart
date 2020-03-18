@@ -47,7 +47,7 @@ class _RouterListPageState extends State<RouterListPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _init();
+//    _init();
   }
 
   freshUI(){
@@ -82,20 +82,53 @@ class _RouterListPageState extends State<RouterListPage> {
     freshUI();
   }
 
+  Future<int> mockNewData() async{
+    bool connected = await ConnectUtil.isConnectWifi();
+    if(!connected){
+      await Future.delayed(Duration(seconds: 0));
+      return 0;
+    }else{
+      //进行检索
+      await Future.delayed(Duration(seconds : 2));
+      return 3;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget childWidget;
-    if(_pageState == 1){
-      //网络提示
-      childWidget = new NetHelpUi(_onNetTap);
-    } else if(_pageState == 2){
-      //loading搜索
-      childWidget = new LoadingUi();
-    } else if(_pageState == 3){
-      //结果展示
-      childWidget = BuildListView(context);
-    }
-    return childWidget;
+//    Widget childWidget;
+//    if(_pageState == 1){
+//      //网络提示
+//      childWidget = new NetHelpUi(_onNetTap);
+//    } else if(_pageState == 2){
+//      //loading搜索
+//      childWidget = new LoadingUi();
+//    } else if(_pageState == 3){
+//      //结果展示
+//      childWidget = BuildListView(context);
+//    }
+//    return childWidget;
+    return Center(
+      child: FutureBuilder<int>(
+        future: mockNewData(),
+        builder: (BuildContext context,AsyncSnapshot snapshot){
+          if(snapshot.connectionState == ConnectionState.done){
+            if(snapshot.hasError){
+              return Text("Error: ${snapshot.error}");
+            }else{
+              if(snapshot.data == 1){
+                return NetHelpUi(_onNetTap);
+              }else if(snapshot.data == 3){
+                return BuildListView(context);
+              }
+            }
+          }else{
+            //加载中
+            return LoadingUi();
+          }
+        },
+      ),
+    );
   }
 
   //登录回调
